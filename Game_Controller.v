@@ -169,7 +169,78 @@ begin
 end
 end
 
+reg [3:0] S, NS; 
+reg [9:0] x, y;
+wire hit1_1, hit1_2, hit1_3, hit1_4, hit1_5, hit1_6, hit1_7, hit1_8, hit2_1, hit2_2, hit2_3, hit2_4, hit2_5, hit2_6, hit2_7, hit2_8, hit3_1, hit3_2, hit3_3, hit3_4, hit3_5, hit3_6, hit3_7, hit3_8;
+always @(*) begin
+    hit1_1 = 0; hit1_2 = 0; hit1_3 = 0; hit1_4 = 0;
+    hit1_5 = 0; hit1_6 = 0; hit1_7 = 0; hit1_8 = 0;
+    hit2_1 = 0; hit2_2 = 0; hit2_3 = 0; hit2_4 = 0;
+    hit2_5 = 0; hit2_6 = 0; hit2_7 = 0; hit2_8 = 0;
+    hit3_1 = 0; hit3_2 = 0; hit3_3 = 0; hit3_4 = 0;
+    hit3_5 = 0; hit3_6 = 0; hit3_7 = 0; hit3_8 = 0;
+end
+	
+paramater
+START = 4'd0,
+PLAY = 4'd1,
 
+ballx = 10'd300,
+bally = 10'd300,
+
+paddlex = 10'd240,
+paddley =  10'd440,
+
+block_1_1x = 10'd0, 
+block_1_1y = 10'd20, 
+block_1_2x = 10'd80, 
+block_1_2y = 10'd20, 
+block_1_3x = 10'd160, 
+block_1_3y = 10'd20, 
+block_1_4x = 10'd240, 
+block_1_4y = 10'd20, 
+block_1_5x = 10'd320,
+block_1_5y = 10'd20, 
+block_1_6x = 10'd400, 
+block_1_6y = 10'd20, 
+block_1_7x = 10'd480, 
+block_1_7y = 10'd20, 
+block_1_8x = 10'd560,
+block_1_8y = 10'd20,
+
+block_2_1x = 10'd0, 
+block_2_1y = 10'd70, 
+block_2_2x = 10'd80, 
+block_2_2y = 10'd70, 
+block_2_3x = 10'd160, 
+block_2_3y = 10'd70, 
+block_2_4x = 10'd240, 
+block_2_4y = 10'd70, 
+block_2_5x = 10'd320, 
+block_2_5y = 10'd70, 
+block_2_6x = 10'd400, 
+block_2_6y = 10'd70, 
+block_2_7x = 10'd480, 
+block_2_7y = 10'd70, 
+block_2_8x = 10'd5600, 
+block_2_8y = 10'd70,
+
+block_3_1x = 10'd0, 
+block_3_1y = 10'd120, 
+block_3_2x = 10'd80, 
+block_3_2y = 10'd120, 
+block_3_3x = 10'd160, 
+block_3_3y = 10'd120, 
+block_3_4x = 10'd240, 
+block_3_4y = 10'd120, 
+block_3_5x = 10'd320, 
+block_3_5y = 10'd120, 
+block_3_6x = 10'd400, 
+block_3_6y = 10'd120, 
+block_3_7x = 10'd480,
+block_3_7y = 10'd120, 
+block_3_8x = 10'd560, 
+block_3_8y = 10'd120;
 
 endmodule
 
