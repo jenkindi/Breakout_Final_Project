@@ -112,11 +112,11 @@ begin
 		case (S)
 			START:
 			  color <= 24'd0;
-      RED:
+      		RED:
 			  color <= 24'hFF0000;
-      WHITE:
+     		WHITE:
 			  color <= 24'hFFFFFF;
-      BLACK:
+      		BLACK:
 			  color <= 24'd0;
 		endcase
 	end
