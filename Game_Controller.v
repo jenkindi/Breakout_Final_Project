@@ -87,4 +87,89 @@ module Game_Controller(
 	//inout 		    [35:0]		GPIO_1
 
 );
-  
+
+	
+  // Turn off all displays.
+	assign	HEX0		=	7'h00;
+	assign	HEX1		=	7'h00;
+	assign	HEX2		=	7'h00;
+	assign	HEX3		=	7'h00;
+
+wire active_pixels; // is on when we're in the active draw space
+
+wire [9:0]x; // current x
+wire [9:0]y; // current y - 10 bits = 1024 ... a little bit more than we need
+
+wire clk;
+wire rst;
+
+assign clk = CLOCK_50;
+assign rst = SW[0];
+
+assign LEDR[0] = active_pixels;
+assign LEDR[1] = flag;
+
+vga_driver the_vga(
+.clk(clk),
+.rst(rst),
+
+.vga_clk(VGA_CLK),
+
+.hsync(VGA_HS),
+.vsync(VGA_VS),
+
+.active_pixels(active_pixels),
+
+.xPixel(x),
+.yPixel(y),
+
+.VGA_BLANK_N(VGA_BLANK_N),
+.VGA_SYNC_N(VGA_SYNC_N)
+);
+
+always @(*)
+begin
+	{VGA_R, VGA_G, VGA_B} = vga_color;
+end
+
+reg flag;
+reg [23:0] vga_color;
+
+always @(posedge clk or negedge rst)
+begin
+	if (rst == 1'b0)
+	begin
+		vga_color <= 24'hFFFFFF;
+		flag <= 1'b0;
+	end
+	else begin
+    if (active_pixels) begin
+        // We are in the visible region
+
+        if (KEY[3] == 1'b0) begin
+            // Button pressed -> draw blue square
+            
+            if (x >= 100 && x < 180 && y >= 100 && y < 150)
+                vga_color <= 24'h0000FF;       // Blue square
+				else if (x >= 400 && x < 560 && y >= 400 && y < 420)
+					vga_color <= 24'h0000FF;
+				else if (x >= 300 && x < 305 && y >= 300 && y < 305)
+					vga_color <= 24'h0000FF;
+            else
+                vga_color <= 24'hFFA500;       // Orange background
+
+        end else begin
+            // Button not pressed
+            vga_color <= 24'hFFFFFF;           // White background
+        end
+    end else begin
+        // In blanking interval
+        vga_color <= 24'h000000;               // Black or don't care
+    end
+end
+end
+
+
+
+endmodule
+
