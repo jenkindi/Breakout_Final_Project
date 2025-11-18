@@ -1,4 +1,3 @@
-
 module display(clk, rst, start, x, y, ballx, bally, paddlex, paddley, block_1_1x, block_1_1y, block_1_2x, block_1_2y, block_1_3x, block_1_3y, block_1_4x, block_1_4y, block_1_5x, block_1_5y, block_1_6x, block_1_6y, block_1_7x, block_1_7y, block_1_8x, block_1_8y,
                                                                block_2_1x, block_2_1y, block_2_2x, block_2_2y, block_2_3x, block_2_3y, block_2_4x, block_2_4y, block_2_5x, block_2_5y, block_2_6x, block_2_6y, block_2_7x, block_2_7y, block_2_8x, block_2_8y,
                                                                block_3_1x, block_3_1y, block_3_2x, block_3_2y, block_3_3x, block_3_3y, block_3_4x, block_3_4y, block_3_5x, block_3_5y, block_3_6x, block_3_6y, block_3_7x, block_3_7y, block_3_8x, block_3_8y, 
@@ -16,7 +15,8 @@ parameter START = 8'd0,
           XY = 8'd1,
           RED = 8'd2,
           WHITE = 8'd3,
-          BLACK = 8'd4;
+          BLACK = 8'd4,
+			 ERROR = 8'd5;
   
 always@(posedge clk or negedge rst)
 begin
@@ -99,6 +99,8 @@ case(S)
       NS = XY;
   BLACK: 
       NS =XY;
+  default:
+		NS = ERROR;
 endcase
 end
 
@@ -112,18 +114,17 @@ begin
 	begin
 		case (S)
 			START:
-			  color <= 24'd0;
-      		RED:
-			  color <= 24'hFF0000;
+						color <= 24'd0;
+      	  RED:
+						color <= 24'hFF0000;
      		WHITE:
-			  color <= 24'hFFFFFF;
-      		BLACK:
-			  color <= 24'd0;
+						color <= 24'hFFFFFF;
+      	BLACK:
+						color <= 24'd0;
 		endcase
 	end
 end
 endmodule
-
 
 
 
