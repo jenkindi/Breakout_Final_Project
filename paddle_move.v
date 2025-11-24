@@ -22,13 +22,13 @@ end
 
 always@(*)
     case(S)
-        Start:
+        START:
             if(start == 1'b0)
                 NS = STAY;
             else
                 NS = START;
         STAY:
-            if(left_move == 1'b0 && right_move = 1'b0)
+            if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
             if(left_move == 1'b0 && paddlex > 0)
@@ -39,7 +39,7 @@ always@(*)
             else
                 NS = STAY;
         MOVE_L:
-            if(left_move == 1'b0 && right_move = 1'b0)
+            if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
             if(left_move == 1'b0 && paddlex > 0)
@@ -51,7 +51,7 @@ always@(*)
                 NS = STAY;
         
         MOVE_R:
-            if(left_move == 1'b0 && right_move = 1'b0)
+            if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
             if(left_move == 1'b0 && paddlex > 0)
