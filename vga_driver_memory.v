@@ -158,9 +158,14 @@ display my_display(clk, rst, start, x, y, ballx, bally, paddlex, paddley, block_
                color);
 
 // Instantiate paddle movements
-wire paddlex;
-wire paddley;
+wire [9:0]paddlex;
+wire [9:0]paddley;
 paddle_move my_paddle_move(clk, rst, start, left_move, right_move, paddlex, paddley);
+
+// Instantiate paddle collision
+wire paddle_col;
+wire [2:0]ball_angle;
+paddle_collision my_paddle_collision(clk, rst, start, ballx, bally, paddlex, paddley, paddle_col, ball_angle);
 
 always @(posedge clk or negedge rst)
 begin
@@ -249,6 +254,7 @@ block_3_8y = 10'd120;
 
 
 endmodule
+
 
 
 
