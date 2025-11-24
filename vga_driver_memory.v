@@ -150,12 +150,17 @@ always @(*) begin
     hit3_5 = 0; hit3_6 = 0; hit3_7 = 0; hit3_8 = 0;
 end
 
+// Instantiate display module
 display my_display(clk, rst, start, x, y, ballx, bally, paddlex, paddley, block_1_1x, block_1_1y, block_1_2x, block_1_2y, block_1_3x, block_1_3y, block_1_4x, block_1_4y, block_1_5x, block_1_5y, block_1_6x, block_1_6y, block_1_7x, block_1_7y, block_1_8x, block_1_8y,
                                                                block_2_1x, block_2_1y, block_2_2x, block_2_2y, block_2_3x, block_2_3y, block_2_4x, block_2_4y, block_2_5x, block_2_5y, block_2_6x, block_2_6y, block_2_7x, block_2_7y, block_2_8x, block_2_8y,
                                                                block_3_1x, block_3_1y, block_3_2x, block_3_2y, block_3_3x, block_3_3y, block_3_4x, block_3_4y, block_3_5x, block_3_5y, block_3_6x, block_3_6y, block_3_7x, block_3_7y, block_3_8x, block_3_8y, 
                                                                hit1_1, hit1_2, hit1_3, hit1_4, hit1_5, hit1_6, hit1_7, hit1_8, hit2_1, hit2_2, hit2_3, hit2_4, hit2_5, hit2_6, hit2_7, hit2_8, hit3_1, hit3_2, hit3_3, hit3_4, hit3_5, hit3_6, hit3_7, hit3_8,
                color);
 
+// Instantiate paddle movements
+wire paddlex;
+wire paddley;
+paddle_move my_paddle_move(clk, rst, start, left_move, right_move, paddlex, paddley);
 
 always @(posedge clk or negedge rst)
 begin
@@ -190,9 +195,6 @@ PLAY = 4'd1,
 
 ballx = 10'd300,
 bally = 10'd300,
-
-paddlex = 10'd240,
-paddley =  10'd440,
 
 block_1_1x = 10'd0, 
 block_1_1y = 10'd20, 
@@ -247,5 +249,6 @@ block_3_8y = 10'd120;
 
 
 endmodule
+
 
 
