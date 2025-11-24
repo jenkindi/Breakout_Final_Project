@@ -1,5 +1,5 @@
-module paddlemove(rst, clk, start, left_move, right_move, paddlex, paddley);
-input rst, clk, start, left_move, right_move;
+module paddlemove(clk, rst, start, left_move, right_move, paddlex, paddley);
+input clk, rst, start, left_move, right_move;
 output reg [9:0] paddlex, paddley;
 
 reg [2:0] S,NS;
