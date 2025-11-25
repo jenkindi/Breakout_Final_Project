@@ -239,6 +239,7 @@ begin
 		  lose <= 1'b1;		
     endcase
   end
+end
 endmodule
 
       
