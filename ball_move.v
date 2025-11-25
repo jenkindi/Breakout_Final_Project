@@ -1,8 +1,9 @@
-module ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally);
+module ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally, lose);
 input clk, rst, game_clock, start;
 input blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col;
 input [2:0] ball_angle;
 output reg [9:0] ballx, bally;
+output reg lose;
 
 reg [3:0] S, NS;
 reg vert_vector;
@@ -234,6 +235,8 @@ begin
           if (ball_angle == 3'd6)
             horz_vector <= 3'd6;
         end
+	  DONE:
+		  lose <= 1'b1;		
     endcase
   end
 endmodule
