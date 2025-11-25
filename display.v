@@ -30,7 +30,7 @@ always@(*)
 begin
 case(S)
 	START:
-		if(start == 1'b0)
+		if(start == 1'b1)
 			NS = XY;
 		else
 			NS = START;
