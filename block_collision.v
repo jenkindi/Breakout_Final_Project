@@ -22,7 +22,10 @@ always@(*)
 begin
 case(S)
     START:
-      NS = GO;
+      if(start == 1'b1)
+            NS = GO;
+      else
+            NS = START;
     GO:
       if((ballx > x  && ballx < x + 80 && bally == y) || (ballx > x  && ballx < x + 80 && bally == y + 50))
             NS = HIT;
