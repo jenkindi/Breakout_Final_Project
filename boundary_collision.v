@@ -22,7 +22,7 @@ end
 always@(*)
     case(S)
         START:
-            if(start == 1'b0)
+			if(start == 1'b1)
                 NS = GO;
             else
                 NS = START;
