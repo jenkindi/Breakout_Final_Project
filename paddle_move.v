@@ -86,6 +86,7 @@ begin
                 paddlex <= paddlex + 1;
         endcase
     end
+end
 endmodule
 
 
