@@ -12,7 +12,7 @@ reg [2:0] horz_vector;
 parameter
 START = 3'd0,
 START_BALL_MOVE = 3'd1,
-BALL_MOVE = 3'd2;
+BALL_MOVE = 3'd2,
 SWITCH_X = 3'd3,
 SWITCH_Y = 3'd4,
 PADDLE = 3'd5,
