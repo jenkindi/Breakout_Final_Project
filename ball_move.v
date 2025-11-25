@@ -1,5 +1,5 @@
-module ball_move(clk, rst, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally);
-input clk, rst, start;
+module ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally);
+input clk, rst, game_clock, start;
 input blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col;
 input [2:0] ball_angle;
 output reg [9:0] ballx, bally;
@@ -17,7 +17,7 @@ SWITCH_Y = 3'd4,
 PADDLE = 3'd5,
 DONE = 3'd6;
 
-always@(posedge clk or negedge rst)
+always@(posedge game_clock or negedge rst)
 begin
     if(rst == 1'b0)
         S <= START;
@@ -67,7 +67,7 @@ begin
     endcase
 end
 
-always@(posedge clk or negedge rst)
+always@(posedge game_clock or negedge rst)
 begin
 	if(rst == 1'b0)
   	begin
