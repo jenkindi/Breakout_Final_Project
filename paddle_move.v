@@ -1,4 +1,4 @@
-module paddlemove(clk, rst, start, left_move, right_move, paddlex, paddley);
+module paddlemove(clk, rst, game_clock, start, left_move, right_move, paddlex, paddley);
 input clk, rst, start, left_move, right_move;
 output reg [9:0] paddlex, paddley;
 
@@ -12,7 +12,7 @@ STAY = 3'd1,
 MOVE_L = 3'd2,
 MOVE_R = 3'd3;
 
-always@(posedge clk or negedge rst)
+always@(posedge game_clock or negedge rst)
 begin
     if(rst == 1'b0)
         S <= START;
@@ -63,7 +63,7 @@ always@(*)
                 NS = STAY;
     endcase
 
-always@(posedge clk or negedge rst)
+always@(posedge game_clock or negedge rst)
 begin
     if(rst == 1'b0)
     begin
