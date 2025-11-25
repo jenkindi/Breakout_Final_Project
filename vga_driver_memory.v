@@ -287,8 +287,31 @@ block_3_7y = 10'd120,
 block_3_8x = 10'd560, 
 block_3_8y = 10'd120;
 
+always @ (posedge clk or negedge rst)
+	if(rst == 1'b0)
+		begin
+			x <= 0;
+			y <= 0;
+		end
+	else begin
+		if(x == 9'd640) begin
+			x <= 0;
+			
+			if(y == 9'd480)
+				y <= 0;
+			
+				else
+				y <= y + 9'd1;
+				
+			end	
+		else
+			x <= x + 9'd1;
+	end	
+				
+
 
 endmodule
+
 
 
 
