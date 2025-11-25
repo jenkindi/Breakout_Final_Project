@@ -106,7 +106,7 @@ wire left_move;
 wire right_move;
 
 assign clk = CLOCK_50;
-assign rst = KEY[3];
+assign rst = KEY[2];
 assign start = SW[0];
 assign left_move = KEY[1];
 assign right_move = KEY[0];
@@ -140,45 +140,98 @@ end
 reg flag;
 reg [23:0] vga_color;
 
-reg [3:0] S, NS; 
 
-// Instantiate game clock
-wire game_clock
-new_clock my_new_clock(clk, rst, game_clock);
-	
-// Instantiate display module
+wire game_clock;	
 wire [23:0] color;
-display my_display(clk, rst, start, x, y, ballx, bally, paddlex, paddley, block_1_1x, block_1_1y, block_1_2x, block_1_2y, block_1_3x, block_1_3y, block_1_4x, block_1_4y, block_1_5x, block_1_5y, block_1_6x, block_1_6y, block_1_7x, block_1_7y, block_1_8x, block_1_8y,
-                                                               block_2_1x, block_2_1y, block_2_2x, block_2_2y, block_2_3x, block_2_3y, block_2_4x, block_2_4y, block_2_5x, block_2_5y, block_2_6x, block_2_6y, block_2_7x, block_2_7y, block_2_8x, block_2_8y,
-                                                               block_3_1x, block_3_1y, block_3_2x, block_3_2y, block_3_3x, block_3_3y, block_3_4x, block_3_4y, block_3_5x, block_3_5y, block_3_6x, block_3_6y, block_3_7x, block_3_7y, block_3_8x, block_3_8y, 
-                                                               hit1_1, hit1_2, hit1_3, hit1_4, hit1_5, hit1_6, hit1_7, hit1_8, hit2_1, hit2_2, hit2_3, hit2_4, hit2_5, hit2_6, hit2_7, hit2_8, hit3_1, hit3_2, hit3_3, hit3_4, hit3_5, hit3_6, hit3_7, hit3_8,
-               color);
-
-// Instantiate paddle movements
 wire [9:0]paddlex;
 wire [9:0]paddley;
-paddle_move my_paddle_move(clk, rst, game_clock, start, left_move, right_move, paddlex, paddley);
-
-// Instantiate paddle collision
 wire paddle_col;
 wire [2:0]ball_angle;
-paddle_collision my_paddle_collision(clk, rst, start, ballx, bally, paddlex, paddley, paddle_col, ball_angle);
-
-// Instantiate boundary collision
 wire wall_col;
 wire ceiling_col;
-boundary_collision my_boundary_collision(clk, rst, start, ballx, bally, wall_col, ceiling_col);
-
-// Instantiate ball movements
 wire [9:0]ballx;
 wire [9:0]bally;
-ball_move my_ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally);
-
-// Instantiate block boundary collisions
 wire hit1_1, hit1_2, hit1_3, hit1_4, hit1_5, hit1_6, hit1_7, hit1_8, hit2_1, hit2_2, hit2_3, hit2_4, hit2_5, hit2_6, hit2_7, hit2_8, hit3_1, hit3_2, hit3_3, hit3_4, hit3_5, hit3_6, hit3_7, hit3_8;
 wire blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8;
 wire blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8;	
-block_collision block_1_1(clk, rst, start, ballx, bally, block_1_1x, y, hit1_1, blockTB_col_1_1, blockLR_col_1_1);
+wire lose;
+reg win;
+reg loss;
+	
+// Instantiate game clock
+new_clock my_new_clock(clk, rst, game_clock);
+	
+// Instantiate display module
+display my_display(clk, rst, start, x, y, ballx, bally, paddlex, paddley, block_1_1x, block_1_1y, block_1_2x, block_1_2y, block_1_3x, block_1_3y, block_1_4x, block_1_4y, block_1_5x, block_1_5y, block_1_6x, block_1_6y, block_1_7x, block_1_7y, block_1_8x, block_1_8y,
+                                                               block_2_1x, block_2_1y, block_2_2x, block_2_2y, block_2_3x, block_2_3y, block_2_4x, block_2_4y, block_2_5x, block_2_5y, block_2_6x, block_2_6y, block_2_7x, block_2_7y, block_2_8x, block_2_8y,
+                                                               block_3_1x, block_3_1y, block_3_2x, block_3_2y, block_3_3x, block_3_3y, block_3_4x, block_3_4y, block_3_5x, block_3_5y, block_3_6x, block_3_6y, block_3_7x, block_3_7y, block_3_8x, block_3_8y, 
+                                                               hit1_1, hit1_2, hit1_3, hit1_4, hit1_5, hit1_6, hit1_7, hit1_8, hit2_1, hit2_2, hit2_3, hit2_4, hit2_5, hit2_6, hit2_7, hit2_8, hit3_1, hit3_2, hit3_3, hit3_4, hit3_5, hit3_6, hit3_7, hit3_8, win, loss,
+               color);
+
+// Instantiate paddle movements
+paddle_move my_paddle_move(clk, rst, game_clock, start, left_move, right_move, paddlex, paddley);
+
+// Instantiate paddle collision
+paddle_collision my_paddle_collision(clk, rst, start, ballx, bally, paddlex, paddley, paddle_col, ball_angle);
+
+// Instantiate boundary collision
+boundary_collision my_boundary_collision(clk, rst, start, ballx, bally, wall_col, ceiling_col);
+
+// Instantiate ball movements
+ball_move my_ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally, lose);
+
+// Instantiate block boundary collisions
+localparam
+	block_1_1x = 10'd0, 
+	block_1_1y = 10'd20, 
+	block_1_2x = 10'd80, 
+	block_1_2y = 10'd20, 
+	block_1_3x = 10'd160, 
+	block_1_3y = 10'd20, 
+	block_1_4x = 10'd240, 
+	block_1_4y = 10'd20, 
+	block_1_5x = 10'd320,
+	block_1_5y = 10'd20, 
+	block_1_6x = 10'd400, 
+	block_1_6y = 10'd20, 
+	block_1_7x = 10'd480, 
+	block_1_7y = 10'd20, 
+	block_1_8x = 10'd560,
+	block_1_8y = 10'd20,
+	block_2_1x = 10'd0, 
+	block_2_1y = 10'd70, 
+	block_2_2x = 10'd80, 
+	block_2_2y = 10'd70, 
+	block_2_3x = 10'd160, 
+	block_2_3y = 10'd70, 
+	block_2_4x = 10'd240, 
+	block_2_4y = 10'd70, 
+	block_2_5x = 10'd320, 
+	block_2_5y = 10'd70, 
+	block_2_6x = 10'd400, 
+	block_2_6y = 10'd70, 
+	block_2_7x = 10'd480, 
+	block_2_7y = 10'd70, 
+	block_2_8x = 10'd560, 
+	block_2_8y = 10'd70,
+	block_3_1x = 10'd0, 
+	block_3_1y = 10'd120, 
+	block_3_2x = 10'd80, 
+	block_3_2y = 10'd120, 
+	block_3_3x = 10'd160, 
+	block_3_3y = 10'd120, 
+	block_3_4x = 10'd240, 
+	block_3_4y = 10'd120, 
+	block_3_5x = 10'd320, 
+	block_3_5y = 10'd120, 
+	block_3_6x = 10'd400, 
+	block_3_6y = 10'd120, 
+	block_3_7x = 10'd480,
+	block_3_7y = 10'd120, 
+	block_3_8x = 10'd560, 
+	block_3_8y = 10'd120;
+	
+block_collision block_1_1(clk, rst, start, ballx, bally, block_1_1x, block_1_1y, hit1_1, blockTB_col_1_1, blockLR_col_1_1);
 block_collision block_1_2(clk, rst, start, ballx, bally, block_1_2x, block_1_2y, hit1_2, blockTB_col_1_2, blockLR_col_1_2);
 block_collision block_1_3(clk, rst, start, ballx, bally, block_1_3x, block_1_3y, hit1_3, blockTB_col_1_3, blockLR_col_1_3);
 block_collision block_1_4(clk, rst, start, ballx, bally, block_1_4x, block_1_4y, hit1_4, blockTB_col_1_4, blockLR_col_1_4);
@@ -231,91 +284,67 @@ begin
 end
 end
 
+reg [3:0] S, NS; 
+	
 parameter
 START = 4'd0,
 PLAY = 4'd1,
+WIN = 4'd2,
+LOSS = 4'd3;
 
-ballx = 10'd300,
-bally = 10'd300,
-
-block_1_1x = 10'd0, 
-block_1_1y = 10'd20, 
-block_1_2x = 10'd80, 
-block_1_2y = 10'd20, 
-block_1_3x = 10'd160, 
-block_1_3y = 10'd20, 
-block_1_4x = 10'd240, 
-block_1_4y = 10'd20, 
-block_1_5x = 10'd320,
-block_1_5y = 10'd20, 
-block_1_6x = 10'd400, 
-block_1_6y = 10'd20, 
-block_1_7x = 10'd480, 
-block_1_7y = 10'd20, 
-block_1_8x = 10'd560,
-block_1_8y = 10'd20,
-block_2_1x = 10'd0, 
-block_2_1y = 10'd70, 
-block_2_2x = 10'd80, 
-block_2_2y = 10'd70, 
-block_2_3x = 10'd160, 
-block_2_3y = 10'd70, 
-block_2_4x = 10'd240, 
-block_2_4y = 10'd70, 
-block_2_5x = 10'd320, 
-block_2_5y = 10'd70, 
-block_2_6x = 10'd400, 
-block_2_6y = 10'd70, 
-block_2_7x = 10'd480, 
-block_2_7y = 10'd70, 
-block_2_8x = 10'd560, 
-block_2_8y = 10'd70,
-block_3_1x = 10'd0, 
-block_3_1y = 10'd120, 
-block_3_2x = 10'd80, 
-block_3_2y = 10'd120, 
-block_3_3x = 10'd160, 
-block_3_3y = 10'd120, 
-block_3_4x = 10'd240, 
-block_3_4y = 10'd120, 
-block_3_5x = 10'd320, 
-block_3_5y = 10'd120, 
-block_3_6x = 10'd400, 
-block_3_6y = 10'd120, 
-block_3_7x = 10'd480,
-block_3_7y = 10'd120, 
-block_3_8x = 10'd560, 
-block_3_8y = 10'd120;
-
-always @ (posedge clk or negedge rst)
+always@(posedge clk or negedge rst)
+begin
 	if(rst == 1'b0)
-		begin
-			x <= 0;
-			y <= 0;
-		end
-	else begin
-		if(x == 9'd640) begin
-			x <= 0;
-			
-			if(y == 9'd480)
-				y <= 0;
-			
-				else
-				y <= y + 9'd1;
-				
-			end	
+		S <= START;
+	else 
+		S <= NS;
+end
+
+always@(*)
+begin
+case(S)
+	START:
+		if(start == 1'b1)
+			NS = PLAY;
+		else 
+			NS = START;
+	PLAY:
+		if(hit1_1 == 1'b1 && hit1_2 == 1'b1 && hit1_3 == 1'b1 && hit1_4 == 1'b1 && hit1_5 == 1'b1 && hit1_6 == 1'b1 && hit1_7 == 1'b1 && hit1_8 == 1'b1 && hit2_1 == 1'b1 && hit2_2 == 1'b1 && hit2_3 == 1'b1 && hit2_4 == 1'b1 && hit2_5 == 1'b1 && hit2_6 == 1'b1 && hit2_7 == 1'b1 && hit2_8 == 1'b1 &&hit3_1 == 1'b1 && hit3_2 == 1'b1 && hit3_3 == 1'b1 && hit3_4 == 1'b1 && hit3_5 == 1'b1 && hit3_6 == 1'b1 && hit3_7 == 1'b1 && hit3_8 == 1'b1)
+			NS = WIN;
+		else 
+		if(lose == 1'b1)
+			NS = LOSS;
 		else
-			x <= x + 9'd1;
-	end	
-				
+			NS = PLAY;
+	WIN:
+		NS = WIN;
+	LOSS: 
+		NS = LOSS;
+endcase
+end
 
 
-endmodule
-
-
-
-
-
-
-
-
+always@(posedge clk or negedge rst)
+begin
+	if(rst == 1'b0)
+	begin 
+		win <= 1'b0;
+		loss <= 1'b0;
+	end
+	else 
+	begin
+		case (S)
+			START:
+			begin
+				win <= 1'b0;
+				loss <= 1'b0;
+			end
+			WIN:
+				win <= 1'b1;
+			LOSS:
+				loss <= 1'b1;
+			
+		endcase
+	end
+end
+endmodule	
