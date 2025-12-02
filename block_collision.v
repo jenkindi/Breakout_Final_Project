@@ -1,16 +1,24 @@
-module block_collision(clk, rst, start, ballx, bally, x, y, hit, blockTB_col, blockLR_col);
-input clk, rst, start;
-input [9:0] ballx, bally, x, y;
-output reg hit, blockTB_col, blockLR_col;
+module ball_move(clk, rst, game_clock, start, blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col, ball_angle, ballx, bally, lose);
+input clk, rst, game_clock, start;
+input blockTB_col_1_1, blockTB_col_1_2, blockTB_col_1_3, blockTB_col_1_4, blockTB_col_1_5, blockTB_col_1_6, blockTB_col_1_7, blockTB_col_1_8, blockTB_col_2_1, blockTB_col_2_2, blockTB_col_2_3, blockTB_col_2_4, blockTB_col_2_5, blockTB_col_2_6, blockTB_col_2_7, blockTB_col_2_8, blockTB_col_3_1, blockTB_col_3_2, blockTB_col_3_3, blockTB_col_3_4, blockTB_col_3_5, blockTB_col_3_6, blockTB_col_3_7, blockTB_col_3_8, blockLR_col_1_1, blockLR_col_1_2, blockLR_col_1_3, blockLR_col_1_4, blockLR_col_1_5, blockLR_col_1_6, blockLR_col_1_7, blockLR_col_1_8, blockLR_col_2_1, blockLR_col_2_2, blockLR_col_2_3, blockLR_col_2_4, blockLR_col_2_5, blockLR_col_2_6, blockLR_col_2_7, blockLR_col_2_8, blockLR_col_3_1, blockLR_col_3_2, blockLR_col_3_3, blockLR_col_3_4, blockLR_col_3_5, blockLR_col_3_6, blockLR_col_3_7, blockLR_col_3_8, wall_col, ceiling_col, paddle_col;
+input [2:0] ball_angle;
+output reg [9:0] ballx, bally;
+output reg lose;
 
-reg [1:0] S, NS;
-
+reg [3:0] S, NS;
+reg vert_vector;
+reg [2:0] horz_vector; 
+  
 parameter
-START = 2'd0,
-GO = 2'd1,
-HIT = 2'd2;
+START = 3'd0,
+START_BALL_MOVE = 3'd1,
+BALL_MOVE = 3'd2,
+SWITCH_X = 3'd3,
+SWITCH_Y = 3'd4,
+PADDLE = 3'd5,
+DONE = 3'd6;
 
-always@(posedge clk or negedge rst)
+always@(posedge game_clock or negedge rst)
 begin
     if(rst == 1'b0)
         S <= START;
@@ -20,71 +28,228 @@ end
 
 always@(*)
 begin
-case(S)
-    START:
-      if(start == 1'b1)
-            NS = GO;
-      else
-            NS = START;
-    GO:
-      if((ballx > x  && ballx < x + 80 && bally == y) || (ballx > x  && ballx < x + 80 && bally == y + 50))
-            NS = HIT;
-      else 
-      if((bally > y && bally < y + 50 && ballx == x) || (bally > y && bally < y + 50 && ballx == x + 80))
-            NS = HIT;
-      else
-            NS = GO;
-    HIT:
-      NS = HIT;
-endcase    
+    case(S)
+	  START: if(start == 1'd1)
+                NS = START_BALL_MOVE;
+             else
+                NS = START;
+      START_BALL_MOVE:
+                NS = BALL_MOVE;
+      BALL_MOVE: 
+        begin
+          if (blockTB_col_1_1 == 1'b1 || blockTB_col_1_2 == 1'b1 || blockTB_col_1_3 == 1'b1 || blockTB_col_1_4 == 1'b1 || blockTB_col_1_5 == 1'b1 || blockTB_col_1_6 == 1'b1 || blockTB_col_1_7 == 1'b1 || blockTB_col_1_8 == 1'b1 || blockTB_col_2_1 == 1'b1 || blockTB_col_2_2 == 1'b1 || blockTB_col_2_3 == 1'b1 || blockTB_col_2_4 == 1'b1 || blockTB_col_2_5 == 1'b1 || blockTB_col_2_6 == 1'b1 || blockTB_col_2_7 == 1'b1 || blockTB_col_2_8 == 1'b1 || blockTB_col_3_1 == 1'b1 || blockTB_col_3_2 == 1'b1 || blockTB_col_3_3 == 1'b1 || blockTB_col_3_4 == 1'b1 || blockTB_col_3_5 == 1'b1 || blockTB_col_3_6 == 1'b1 || blockTB_col_3_7 == 1'b1 || blockTB_col_3_8 == 1'b1)
+                NS = SWITCH_Y;
+          else
+          if (blockLR_col_1_1 == 1'b1 || blockLR_col_1_2 == 1'b1 || blockLR_col_1_3 == 1'b1 || blockLR_col_1_4 == 1'b1 || blockLR_col_1_5 == 1'b1 || blockLR_col_1_6 == 1'b1 || blockLR_col_1_7 == 1'b1 || blockLR_col_1_8 == 1'b1 || blockLR_col_2_1 == 1'b1 || blockLR_col_2_2 == 1'b1 || blockLR_col_2_3 == 1'b1 || blockLR_col_2_4 == 1'b1 || blockLR_col_2_5 == 1'b1 || blockLR_col_2_6 == 1'b1 || blockLR_col_2_7 == 1'b1 || blockLR_col_2_8 == 1'b1 || blockLR_col_3_1 == 1'b1 || blockLR_col_3_2 == 1'b1 || blockLR_col_3_3 == 1'b1 || blockLR_col_3_4 == 1'b1 || blockLR_col_3_5 == 1'b1 || blockLR_col_3_6 == 1'b1 || blockLR_col_3_7 == 1'b1 || blockLR_col_3_8 == 1'b1)
+                NS = SWITCH_X;
+          else
+          if (wall_col == 1'b1)
+                NS = SWITCH_X;
+          else
+          if (ceiling_col == 1'b1)
+                NS = SWITCH_Y;
+          else
+          if (paddle_col == 1'b1)
+                NS = PADDLE;
+          else
+          if (bally == 477)
+                NS = DONE;
+          else
+                NS = BALL_MOVE;
+        end
+      SWITCH_X:
+                NS = BALL_MOVE;
+      SWITCH_Y:
+                NS = BALL_MOVE;
+      PADDLE:
+                NS = BALL_MOVE;
+      DONE: 
+                NS = DONE;
+    endcase
 end
-         
-always@(posedge clk or negedge rst)
+
+always@(posedge game_clock or negedge rst)
 begin
-    if(rst == 1'b0)
-      begin
-        hit <= 1'b0;
-        blockTB_col <= 1'b0;
-        blockLR_col <= 1'b0;
-      end
-    else
-    begin
-        case(S)
-            START:
-				      begin
-                hit <= 1'b0;
-                blockTB_col <= 1'b0;
-                blockLR_col <= 1'b0;
-				      end
-            GO:
-              begin
-              if((ballx > x  && ballx < x + 80 && bally == y) || (ballx > x  && ballx < x + 80 && bally == y + 50))
-                begin
-                  hit <= 1'b1;
-                  blockTB_col <= 1'b1;
-                  blockLR_col <= 1'b0;
-                end
-              else 
-              if((bally > y && bally < y + 50 && ballx == x) || (bally > y && bally < y + 50 && ballx == x + 80))
-                  begin
-                  hit <= 1'b1;
-                  blockTB_col <= 1'b0;
-                  blockLR_col <= 1'b1;
-                end
-              else
-                  begin
-                  hit <= 1'b0;
-                  blockTB_col <= 1'b0;
-                  blockLR_col <= 1'b0;
-                end
-            end
-            HIT:
-				      begin
-                hit <= 1'b1;
-                blockTB_col <= 1'b0;
-                blockLR_col <= 1'b0;
-				      end
-        endcase
-    end
+	if(rst == 1'b0)
+  	begin
+  		ballx <= 10'd300;
+  		bally <= 10'd300;
+  		vert_vector <= 1'b0;
+  		horz_vector <= 3'd3;
+		lose <= 1'd0;
+  	end
+	else
+	begin
+		case(S)
+			START: 
+  			begin
+  				ballx <= 10'd300;
+  				bally <= 10'd300;
+				lose <= 1'd0;
+  			end
+			START_BALL_MOVE:
+  			begin
+  				vert_vector <= 1'd0;
+  				horz_vector <= 3'd3;
+  			end		
+			BALL_MOVE:
+        begin
+          if(vert_vector == 1'b0 && horz_vector == 3'd0)
+    			begin
+    				ballx <= ballx - 3;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd1)
+    			begin
+    				ballx <= ballx - 2;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd2)
+    			begin
+    				ballx <= ballx - 1;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd3)
+    			begin
+    				ballx <= ballx;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd4)
+    			begin
+    				ballx <= ballx + 1;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd5)
+    			begin
+    				ballx <= ballx + 2;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b0 && horz_vector == 3'd6)
+    			begin
+    				ballx <= ballx + 3;
+    				bally <= bally + 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd0)
+    			begin
+    				ballx <= ballx - 3;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd1)
+    			begin
+    				ballx <= ballx - 2;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd2)
+    			begin
+    				ballx <= ballx - 1;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd3)
+    			begin
+    				ballx <= ballx;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd4)
+    			begin
+    				ballx <= ballx + 1;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd5)
+    			begin
+    				ballx <= ballx + 2;
+    				bally <= bally - 1;
+			    end
+          else
+          if(vert_vector == 1'b1 && horz_vector == 3'd6)
+    			begin
+    				ballx <= ballx + 3;
+    				bally <= bally - 1;
+			    end
+          else
+          begin
+            ballx <= ballx;
+    				bally <= bally;
+          end
+        end
+      SWITCH_X:
+        begin
+          if(horz_vector == 3'd0)begin
+            horz_vector <= 3'd6;
+				ballx <= ballx + 4;end
+          else
+          if(horz_vector == 3'd1)begin
+            horz_vector <= 3'd5;
+				ballx <= ballx + 4;end
+          else
+          if(horz_vector == 3'd2)begin
+            horz_vector <= 3'd4;
+				ballx <= ballx + 4;end
+          else
+          if(horz_vector == 3'd3)
+            horz_vector <= 3'd3;
+          else
+          if(horz_vector == 3'd4)begin
+            horz_vector <= 3'd2;
+				ballx <= ballx - 4;end
+          else
+          if(horz_vector == 3'd5)begin
+            horz_vector <= 3'd1;
+				ballx <= ballx - 4;end
+          else
+          if(horz_vector == 3'd6)begin
+            horz_vector <= 3'd0;
+				ballx <= ballx - 4;end
+        end
+      SWITCH_Y:
+        begin
+          if(vert_vector == 1'b0)begin
+  					vert_vector <= 1'b1;
+					bally <= bally + 4;end
+  				else begin
+  					vert_vector <= 1'b0;
+					bally <= bally - 4;end
+        end
+      PADDLE:
+        begin
+          vert_vector <= 1'b1;
+          if (ball_angle == 3'd0)
+            horz_vector <= 3'd0;
+          else
+          if (ball_angle == 3'd1)
+            horz_vector <= 3'd1;
+          else
+          if (ball_angle == 3'd2)
+            horz_vector <= 3'd2;
+          else
+          if (ball_angle == 3'd3)
+            horz_vector <= 3'd3;
+          else
+          if (ball_angle == 3'd4)
+            horz_vector <= 3'd4;
+          else
+          if (ball_angle == 3'd5)
+            horz_vector <= 3'd5;
+          else
+          if (ball_angle == 3'd6)
+            horz_vector <= 3'd6;
+        end
+	  DONE:
+		  lose <= 1'b1;		
+    endcase
+  end
 end
 endmodule
+
+      
