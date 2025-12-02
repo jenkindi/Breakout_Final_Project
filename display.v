@@ -11,7 +11,7 @@ output reg [23:0] color;
 
   reg [7:0] NS, S;
 
-parameter START = 8'd0,
+parameter 
           XY = 8'd1,
           RED = 8'd2,
           WHITE = 8'd3,
@@ -22,7 +22,7 @@ parameter START = 8'd0,
 always@(posedge clk or negedge rst)
 begin
 	if(rst == 1'b0)
-		S <= START;
+		S <= XY;
 	else 
 		S<= NS;
 end          
@@ -30,11 +30,6 @@ end
 always@(*)
 begin
 case(S)
-	START:
-		if(start == 1'b1)
-			NS = XY;
-		else
-			NS = START;
   XY: 
 	if(win == 1'b1)
 	  NS = GREEN;
@@ -120,9 +115,7 @@ begin
 	else
 	begin
 		case (S)
-			START:
-					color <= 24'd0;
-      	    RED:
+		   RED:
 					color <= 24'hFF0000;
      		WHITE:
 					color <= 24'hFFFFFF;
