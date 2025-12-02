@@ -93,5 +93,5 @@ begin
 				end
           endcase
 		end
+	end
 endmodule
-
