@@ -216,7 +216,7 @@ begin
         begin
           if(vert_vector == 1'b0)begin
   					vert_vector <= 1'b1;
-					bally <= bally + 4;end
+					bally <= bally + 8;end
   				else begin
   					vert_vector <= 1'b0;
 					bally <= bally - 4;end
