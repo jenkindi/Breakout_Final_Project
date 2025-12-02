@@ -76,6 +76,7 @@ begin
   		bally <= 10'd300;
   		vert_vector <= 1'b0;
   		horz_vector <= 3'd3;
+		lose <= 1'd0;
   	end
 	else
 	begin
@@ -84,11 +85,12 @@ begin
   			begin
   				ballx <= 10'd300;
   				bally <= 10'd300;
+				lose <= 1'd0;
   			end
 			START_BALL_MOVE:
   			begin
   				vert_vector <= 1'd0;
-  				horz_vector <= 3'd1;
+  				horz_vector <= 3'd3;
   			end		
 			BALL_MOVE:
         begin
@@ -183,33 +185,41 @@ begin
         end
       SWITCH_X:
         begin
-          if(horz_vector == 3'd0)
+          if(horz_vector == 3'd0)begin
             horz_vector <= 3'd6;
+				ballx <= ballx + 4;end
           else
-          if(horz_vector == 3'd1)
+          if(horz_vector == 3'd1)begin
             horz_vector <= 3'd5;
+				ballx <= ballx + 4;end
           else
-          if(horz_vector == 3'd2)
+          if(horz_vector == 3'd2)begin
             horz_vector <= 3'd4;
+				ballx <= ballx + 4;end
           else
           if(horz_vector == 3'd3)
             horz_vector <= 3'd3;
           else
-          if(horz_vector == 3'd4)
+          if(horz_vector == 3'd4)begin
             horz_vector <= 3'd2;
+				ballx <= ballx - 4;end
           else
-          if(horz_vector == 3'd5)
+          if(horz_vector == 3'd5)begin
             horz_vector <= 3'd1;
+				ballx <= ballx - 4;end
           else
-          if(horz_vector == 3'd6)
+          if(horz_vector == 3'd6)begin
             horz_vector <= 3'd0;
+				ballx <= ballx - 4;end
         end
       SWITCH_Y:
         begin
-          if(vert_vector == 1'b0)
+          if(vert_vector == 1'b0)begin
   					vert_vector <= 1'b1;
-  				else
+					bally <= bally + 4;end
+  				else begin
   					vert_vector <= 1'b0;
+					bally <= bally - 4;end
         end
       PADDLE:
         begin
