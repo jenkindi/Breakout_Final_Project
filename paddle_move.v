@@ -31,7 +31,7 @@ always@(*)
             if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
-            if(left_move == 1'b0 && paddlex > 0)
+            if(left_move == 1'b0 && paddlex > 1)
                 NS = MOVE_L;
             else
             if(right_move == 1'b0 && paddlex + 160 < 640)
