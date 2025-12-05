@@ -14,7 +14,7 @@ begin
   	end
 	else
 	begin
-    if (counter >= 26'416667) //120 pixels per second
+    if (counter >= 26'd416667) //120 pixels per second
   		begin
   			counter <= 26'd0;
   			game_clock <=1'b1;
