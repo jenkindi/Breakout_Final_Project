@@ -31,7 +31,7 @@ always@(*)
             if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
-            if(left_move == 1'b0 && paddlex > 1)
+            if(left_move == 1'b0 && paddlex > 3)
                 NS = MOVE_L;
             else
             if(right_move == 1'b0 && paddlex + 160 < 640)
@@ -42,7 +42,7 @@ always@(*)
             if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
-            if(left_move == 1'b0 && paddlex > 0)
+            if(left_move == 1'b0 && paddlex > 3)
                 NS = MOVE_L;
             else
             if(right_move == 1'b0 && paddlex + 160 < 640)
@@ -54,7 +54,7 @@ always@(*)
             if(left_move == 1'b0 && right_move == 1'b0)
                 NS = STAY;
             else
-            if(left_move == 1'b0 && paddlex > 0)
+            if(left_move == 1'b0 && paddlex > 3)
                 NS = MOVE_L;
             else
             if(right_move == 1'b0 && paddlex + 160 < 640)
@@ -81,19 +81,10 @@ begin
           STAY:
                 paddlex <= paddlex;
           MOVE_L:
-                paddlex <= paddlex - 1;
+                paddlex <= paddlex - 2;
           MOVE_R:
-                paddlex <= paddlex + 1;
+                paddlex <= paddlex + 2;
         endcase
     end
 end
 endmodule
-
-
-
-
-
-
-
-
-          
