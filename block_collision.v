@@ -7,7 +7,8 @@ reg [2:0] S, NS;
 
 parameter
 START = 3'd0,
-GO = 3'd1;
+GO = 3'd1,
+END = 3'd2;
 
 always@(posedge clk or negedge rst)
 begin
@@ -25,7 +26,7 @@ case(S)
             NS = GO;
       else
             NS = START;
-    GO:
+    GO: 
 			NS = GO;
 	
 endcase    
@@ -52,12 +53,11 @@ begin
 					begin
 					if (hit == 1'b1)
 						begin
-						hit <= 1'b1;
-						blockTB_col <= 1'b0;
-						blockLR_col <= 1'b0;
+							blockTB_col <= 1'b0;
+							blockLR_col <= 1'b0;
 						end
 					else
-					if((ballx > x  && ballx < x + 80 && bally <= y + 3 && bally >= y - 3 ) || (ballx > x  && ballx < x + 80 && bally <= y + 53 && bally >= y + 47))
+					if((ballx > x  && ballx < x + 80 && bally <= y) || (ballx > x  && ballx < x + 80 && bally <= y + 50))
 						begin
 							hit <= 1'b1;
 							blockTB_col <= 1'b1;
@@ -69,12 +69,13 @@ begin
 							blockLR_col <= 1'b1;
 						end
 					else
+					
 						begin
-							hit <= 1'b0;
 							blockTB_col <= 1'b0;
 							blockLR_col <= 1'b0;
 						end
 				   end
+				
         endcase
     end
 end
