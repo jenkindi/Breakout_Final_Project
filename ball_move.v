@@ -37,7 +37,8 @@ begin
                 NS = BALL_MOVE;
       BALL_MOVE: 
         begin
-          if (blockTB_col_1_1 == 1'b1 || blockTB_col_1_2 == 1'b1 || blockTB_col_1_3 == 1'b1 || blockTB_col_1_4 == 1'b1 || blockTB_col_1_5 == 1'b1 || blockTB_col_1_6 == 1'b1 || blockTB_col_1_7 == 1'b1 || blockTB_col_1_8 == 1'b1 || blockTB_col_2_1 == 1'b1 || blockTB_col_2_2 == 1'b1 || blockTB_col_2_3 == 1'b1 || blockTB_col_2_4 == 1'b1 || blockTB_col_2_5 == 1'b1 || blockTB_col_2_6 == 1'b1 || blockTB_col_2_7 == 1'b1 || blockTB_col_2_8 == 1'b1 || blockTB_col_3_1 == 1'b1 || blockTB_col_3_2 == 1'b1 || blockTB_col_3_3 == 1'b1 || blockTB_col_3_4 == 1'b1 || blockTB_col_3_5 == 1'b1 || blockTB_col_3_6 == 1'b1 || blockTB_col_3_7 == 1'b1 || blockTB_col_3_8 == 1'b1)
+          
+			 if (blockTB_col_1_1 == 1'b1 || blockTB_col_1_2 == 1'b1 || blockTB_col_1_3 == 1'b1 || blockTB_col_1_4 == 1'b1 || blockTB_col_1_5 == 1'b1 || blockTB_col_1_6 == 1'b1 || blockTB_col_1_7 == 1'b1 || blockTB_col_1_8 == 1'b1 || blockTB_col_2_1 == 1'b1 || blockTB_col_2_2 == 1'b1 || blockTB_col_2_3 == 1'b1 || blockTB_col_2_4 == 1'b1 || blockTB_col_2_5 == 1'b1 || blockTB_col_2_6 == 1'b1 || blockTB_col_2_7 == 1'b1 || blockTB_col_2_8 == 1'b1 || blockTB_col_3_1 == 1'b1 || blockTB_col_3_2 == 1'b1 || blockTB_col_3_3 == 1'b1 || blockTB_col_3_4 == 1'b1 || blockTB_col_3_5 == 1'b1 || blockTB_col_3_6 == 1'b1 || blockTB_col_3_7 == 1'b1 || blockTB_col_3_8 == 1'b1)
                 NS = SWITCH_Y;
           else
           if (blockLR_col_1_1 == 1'b1 || blockLR_col_1_2 == 1'b1 || blockLR_col_1_3 == 1'b1 || blockLR_col_1_4 == 1'b1 || blockLR_col_1_5 == 1'b1 || blockLR_col_1_6 == 1'b1 || blockLR_col_1_7 == 1'b1 || blockLR_col_1_8 == 1'b1 || blockLR_col_2_1 == 1'b1 || blockLR_col_2_2 == 1'b1 || blockLR_col_2_3 == 1'b1 || blockLR_col_2_4 == 1'b1 || blockLR_col_2_5 == 1'b1 || blockLR_col_2_6 == 1'b1 || blockLR_col_2_7 == 1'b1 || blockLR_col_2_8 == 1'b1 || blockLR_col_3_1 == 1'b1 || blockLR_col_3_2 == 1'b1 || blockLR_col_3_3 == 1'b1 || blockLR_col_3_4 == 1'b1 || blockLR_col_3_5 == 1'b1 || blockLR_col_3_6 == 1'b1 || blockLR_col_3_7 == 1'b1 || blockLR_col_3_8 == 1'b1)
@@ -187,40 +188,40 @@ begin
         begin
           if(horz_vector == 3'd0)begin
             horz_vector <= 3'd6;
-				ballx <= ballx + 4;end
+				ballx <= ballx + 6;end
           else
           if(horz_vector == 3'd1)begin
             horz_vector <= 3'd5;
-				ballx <= ballx + 4;end
+				ballx <= ballx + 6;end
           else
           if(horz_vector == 3'd2)begin
             horz_vector <= 3'd4;
-				ballx <= ballx + 4;end
+				ballx <= ballx + 6;end
           else
           if(horz_vector == 3'd3)
             horz_vector <= 3'd3;
           else
           if(horz_vector == 3'd4)begin
             horz_vector <= 3'd2;
-				ballx <= ballx - 4;end
+				ballx <= ballx - 6;end
           else
           if(horz_vector == 3'd5)begin
             horz_vector <= 3'd1;
-				ballx <= ballx - 4;end
+				ballx <= ballx - 6;end
           else
           if(horz_vector == 3'd6)begin
             horz_vector <= 3'd0;
-				ballx <= ballx - 4;end
+				ballx <= ballx - 6;end
         end
       SWITCH_Y:
         begin
           if(vert_vector == 1'b0)begin
   					vert_vector <= 1'b1;
-					bally <= bally + 4;
+					bally <= bally - 4;
 												end
   				else begin
   					vert_vector <= 1'b0;
-					bally <= bally - 4;
+					bally <= bally + 4;
 						end
         end
       PADDLE:
